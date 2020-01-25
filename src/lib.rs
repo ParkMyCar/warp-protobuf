@@ -7,6 +7,13 @@ pub mod body {
         Filter,
     };
 
+    #[derive(Debug)]
+    struct ProtobufDeseralizeError {
+        cause: Box<dyn std::error::Error + Send + Sync>,
+    }
+
+    impl Reject for ProtobufDeseralizeError {}
+
     /// Returns a `Filter` that matches any request and extracts a `Future` of a protobuf encoded body.
     ///
     /// # Note
@@ -26,18 +33,11 @@ pub mod body {
     /// }
     ///
     /// let route = warp::body::content_length_limit(1024 * 16)
-    ///             .and(warp::body::proto())
+    ///             .and(warp_protobuf::body::protobuf())
     ///             .map(|user: HelloUser| {
     ///                 format!("Hello {}!\nUserID: {}", user.name, user.id)
     ///             });
     /// ```
-    #[derive(Debug)]
-    struct ProtobufDeseralizeError {
-        cause: Box<dyn std::error::Error + Send + Sync>,
-    }
-
-    impl Reject for ProtobufDeseralizeError {}
-
     pub fn protobuf<T: Message + Send + Default>(
     ) -> impl Filter<Extract = (T,), Error = Rejection> + Copy {
         async fn from_reader<T: Message + Send + Default>(buf: impl Buf) -> Result<T, Rejection> {
@@ -90,7 +90,7 @@ pub mod reply {
     /// let route = warp::path("user")
     ///     .map(|| {
     ///         let user = UserResponse { id: 42 };
-    ///         warp::reply::protobuf(&user)
+    ///         warp_protobuf::reply::protobuf(&user)
     ///     });
     /// ```
     ///
