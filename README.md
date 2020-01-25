@@ -23,7 +23,7 @@ let route = warp::body::content_length_limit(1024 * 16)
 ```
 
 ### Reply
-The function `warp_protobuf::reply::protobuf()` returns an object that impl's `warp::Reply` so your proto messages are seemlessly encoded and sent over the wire.
+The function `warp_protobuf::reply::protobuf()` returns an object that impl's `warp::Reply` so your proto messages are seamlessly encoded and sent over the wire.
 ```
 use warp::Filter;
 
