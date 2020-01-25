@@ -8,5 +8,6 @@ edition = "2018"
 
 [dependencies]
 bytes = "0.5.3"
+log = "0.4.8"
 prost = "0.6.1"
 warp = "0.2.0"
