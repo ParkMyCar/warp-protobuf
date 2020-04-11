@@ -42,3 +42,4 @@ let route = warp::path("user")
         warp_protobuf::reply::protobuf(&user)
     });
 ```
+
